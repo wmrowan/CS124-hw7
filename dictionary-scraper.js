@@ -26,7 +26,7 @@ _(mots).each(function(mot) {
     var datArr = [];
     res.on('data', function(d){ datArr.push(d.toString('utf8')); });
     res.on('end', function() {
-      //console.log(datArr)
+      console.log(datArr)
       var data = JSON.parse(datArr.join(''));
 
       if(data.Error) {
