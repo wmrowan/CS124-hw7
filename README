@@ -1,0 +1,46 @@
+CS124 -- Programming Assignment 7 -- Machine Translation
+
+Kylie Poppen (kjpoppen@stanford.edu)
+Keegan Poppen (kpoppen@stanford.edu)
+Bill Rowan (wmrowan@stanford.edu)
+
+
+
+
+Our Reordering Algorithm
+------------------------
+
+To reorder the output of the unigram translation algorithm in order to
+produce better constructed English. We successively apply a number of simple
+rules that reorder, change, and sometimes add or subtract words.
+
+The first of these is called AdjectiveBeforeNoun and simply swaps any noun
+adjective pairs where the adjective follows the noun. This is done iteratively
+within the sentence so that each noun will end up being pushed to the back of
+any sequence of consecutive adjectives that follow it.
+
+The intuition for this is simple. In English adjectives always proceed the noun
+they modify while in French they often follow.
+
+The next is called AdverbAfterVerb. This swaps any adverb verb pair so that the
+adverb follows the verb. Based on the original unigram output we discovered
+that while English adverbs may appear almost anywhere in the sentence, they
+often sat awkwardly right in front of the verb in our unigram translation.
+
+Even more errors seem to come out of direct object placement. In the French
+source, the direct objects frequently came before the verb so that we ended up
+with a subject-object-verb pattern. English, of course, always follows a
+subject-verb-object pattern. Unfortunately, it was difficult to come up with a
+rule that could fix this problem consistently. Because our direct objects were
+marked the same as the subject by the POS tagger, it is almost impossible to
+tell if a given noun is the direct object or part of the subject. The best
+heuristic we were able to come up with involved looking for a string of nouns
+followed by a verb. This is the basis of the DOAfterVerbs rule which switches
+the last noun and the verb in these cases, assuming that the noun preceeding
+the verb is the direct object.
+
+Next, we note that English verbs require a "to" helper word when in their
+infinitive form. The unigram model tranlation model is unable, by itself to
+determine when this is necessary. Therefore, we have another rule
+InfinitiveVerbs that inserts the "to" whenever we see a preposition followed by
+a verb or two verbs in a row.
