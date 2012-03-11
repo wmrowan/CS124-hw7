@@ -4,8 +4,17 @@ Kylie Poppen (kjpoppen@stanford.edu)
 Keegan Poppen (kpoppen@stanford.edu)
 Bill Rowan (wmrowan@stanford.edu)
 
+For this assignment, our group worked to write a translator from French to English. French and English are both Latin-based languages with Germanic influence, which simplifies many complicating factors of translation. Similar to English, French sentences tend to take the form of Verb-Subject-Object. In terms of translation, the most complicating factors were word ordering, prepositional differences, and complex negation. In terms of word order, adjectives, adverbs, and pronouns are typically syntactically different than english organization. English also has greater differentiation between prepositions, for example, the French word 'a' can mean to, toward, or of in English, along with a few other colloquial translations. The preposition, then, is translated based off of the surrounding context. Therefore, unigram translation will present an issue. The French language also has a more complex form of negation. As opposed to English, where negation is simply 'not' + verb, French negation follows the form 'ne' + verb + 'pas'. French also has more prevalent use of articles and has more verb tenses than English (particularly the subjunctive tenses). Luckily, the unigram translation should not be affected by extra tenses. 
 
+Original Test Document (excerpt from Chapter One of Le Petit Prince)
+------------------------
+Les grandes personnes m'ont conseillé de laisser de côté les dessins de serpents boas ouverts ou fermés, et de m'intéresser plutôt à la géographie, à l'histoire, au calcul et à la grammaire. C'est ainsi que j'ai abandonné, à l'âge de six ans, une magnifique carrière de peintre. J'avais été découragé par l'insuccès de mon dessin numéro 1 et de mon dessin numéro 2. Les grandes personnes ne comprennent jamais rien toutes seules, et c'est fatigant, pour les enfants, de toujours leur donner des explications.
+J'ai donc dû choisir un autre métier et j'ai appris à piloter des avions. J'ai volé un peu partout dans le monde. Et la géographie, c'est exact, m'a beaucoup servi. Je savais reconnaître, du premier coup d'œil, la Chine de l'Arizona. C'est très utile, si l'on est égaré pendant la nuit.
+J'ai ainsi eu, au cours de ma vie, des tas de contacts avec des tas de gens sérieux. J'ai beaucoup vécu chez les grandes personnes. Je les ai vues de très près. Ça n'a pas trop amélioré mon opinion.
+Quand j'en rencontrais une qui me paraissait un peu lucide, je faisais l'expérience sur elle de mon dessin n° 1 que j'ai toujours conservé. Je voulais savoir si elle était vraiment compréhensive. Mais toujours elle me répondait: "C'est un chapeau." Alors je ne lui parlais ni de serpents boas, ni de forêts vierges, ni d'étoiles. Je me mettais à sa portée. Je lui parlais de bridge, de golf, de politique et de cravates. Et la grande personne était bien contente de connaître un homme aussi raisonnable.
 
+Our System's Output
+------------------------
 
 Our Reordering Algorithm
 ------------------------
@@ -36,11 +45,31 @@ marked the same as the subject by the POS tagger, it is almost impossible to
 tell if a given noun is the direct object or part of the subject. The best
 heuristic we were able to come up with involved looking for a string of nouns
 followed by a verb. This is the basis of the DOAfterVerbs rule which switches
-the last noun and the verb in these cases, assuming that the noun preceeding
+the last noun and the verb in these cases, assuming that the noun preceding
 the verb is the direct object.
 
 Next, we note that English verbs require a "to" helper word when in their
-infinitive form. The unigram model tranlation model is unable, by itself to
+infinitive form. The unigram model translation model is unable, by itself to
 determine when this is necessary. Therefore, we have another rule
 InfinitiveVerbs that inserts the "to" whenever we see a preposition followed by
 a verb or two verbs in a row.
+
+Google Translate Output
+------------------------
+Large people advised me to leave out the drawings of boa constrictors open or closed, and devote myself instead to geography, history, arithmetic and grammar. Thus I gave up, at the age of six years, a magnificent career as a painter. I had been disheartened by the failure of my Drawing Number 1 and number 2 of my drawing. The grown-ups never understand anything by themselves, and it is tiresome for children, always explaining things to them.
+
+So I had to choose another profession, and I learned to pilot airplanes. I flew around the world. And geography, that's right, has served me. I can distinguish the first glance, China from Arizona. This is very useful if one is lost in the night.
+
+I have had during my life, lots of contacts with lots of serious people. I have lived much among adults. I saw them very closely. It has not much improved my opinion.
+
+Whenever I met one who seemed a bit lucid, I made the experiment of showing him my Drawing No. 1 I have always kept. I wanted to know if she was really understanding. But still she replied, 
+
+"That is a hat." 
+
+Then I would never speak or boa constrictors, or primeval forests, or stars. I was down to his level. I told him about bridge, golf, politics, and neckties. And large would be greatly pleased to know such a sensible man.
+
+Comparative Analysis
+------------------------
+
+Group Responsibilities
+------------------------
