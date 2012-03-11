@@ -54,6 +54,48 @@ determine when this is necessary. Therefore, we have another rule
 InfinitiveVerbs that inserts the "to" whenever we see a preposition followed by
 a verb or two verbs in a row.
 
+English's indefinite article 'a' has a weird quirk to it that the word for word
+translation wouldn't be able to pick up on without any context. That is, when
+the noun being modified begins with a vowel, the proceeding indefinite article
+changes to an 'an'. This is the purpose of the AAn rule which was actually
+quite straightforward to implement as all the necessary information is readily
+available.
+
+Many of the translation errors we encountered involved improper translation and
+placement of prepositions. The original French text seems to have many more
+prepositions than the proper English translation. Furthermore, two French
+prepositions a/au and de can be translated to any one of a number of English
+prepositions. In practice, de always get's translated to "of" even though the
+proper English translation depends heavily upon context. We developed a few
+rules to try and deal with this problem though we admit they are far from
+perfect. We just didn't have very much information to work with.
+
+The OrOf rule tries to find list of nouns and then removes the first 'or' and
+subsequent 'of's from the list. This applies for situations where there is a
+potentially long list of disjunctions that becomes translated directly as a
+series of "or of" phrases. English only requires the 'of' on the first element
+of the list and 'or's between subsequent elements.
+
+The ToThe rule applies in a very similar context. Just as we found there were
+many extraneous 'of's in the previous rule, we also found many extraneous 'to's
+in a similar list context. French also seems to include more definite articles
+in contexts that they are not needed in English. Therefore we also looked for
+lists of "to the"s and removed all the 'the's and all 'to's after the first.
+
+The OfStrip rule is similar in spirit to the previous two. In contexts where
+English would indicate noun modification with simple word order French will
+often include an extra 'of' that is not needed in English. It was tough to
+describe specific contexts where this was an issue but one we were definitely
+able nail it down was a V + 'of' + N sequence. In this case we simply remove
+the 'of' in the middle.
+
+Error Analysis
+--------------
+
+Our translation is far from perfect. In fact, it doesn't really make any sense
+at all.
+
+
 Google Translate Output
 ------------------------
 Large people advised me to leave out the drawings of boa constrictors open or closed, and devote myself instead to geography, history, arithmetic and grammar. Thus I gave up, at the age of six years, a magnificent career as a painter. I had been disheartened by the failure of my Drawing Number 1 and number 2 of my drawing. The grown-ups never understand anything by themselves, and it is tiresome for children, always explaining things to them.
