@@ -2,7 +2,7 @@ The_DT large_JJ people_NNS I_PRP have_VBP advisable_JJ of_IN let_VB of_IN side_N
 This_DT is_VBZ so_IN that_IN I_PRP abandoned_VBD ,_, to_TO age_NN of_IN six_CD years_NNS a_DT magnificent_JJ career_NN of_IN painter_NN ._.
 I_NN summer_NN discouraged_VBN by_IN the_DT failure_NN of_IN my_PRP$ drawing_NN number_NN A_NN and_CC of_IN my_PRP$ drawing_NN number_NN 2_CD ._.
 The_DT large_JJ people_NNS not_RB include_VBP never_RB nothing_NN all_RB only_RB ,_, and_CC this_DT is_VBZ tiring_JJ ,_, for_IN the_DT children_NNS ,_, of_IN always_RB their_PRP$ give_VB of_IN explanations_NNS ._.
-I_PRP therefore_RB due_RB choose_VB a_DT other_JJ job_NN and_CC I_PRP learned_VBD to_TO pilot_NN of_IN aircraft_NN ._.
+I_PRP therefore_RB due_RB choose_VB a_DT other_JJ job_NN and_CC I_PRP learned_VBD to_TO pilot_VB of_IN aircraft_NN ._.
 I_PRP stolen_VBD a_DT little_JJ everywhere_RB in_IN the_DT world_NN ._.
 And_CC the_DT geography_NN ,_, this_DT is_VBZ accurate_JJ ,_, me_PRP much_RB served_VBD ._.
 I_PRP knew_VBD recognize_VB ,_, of_IN first_JJ blow_NN Look_NN ,_, the_DT China_NNP of_IN Arizona_NNP ._.
@@ -13,7 +13,7 @@ I_PRP the_DT have_VBP views_NNS of_IN very_RB close_JJ ._.
 It_PRP has_VBZ not_RB too_RB improved_VBN my_PRP$ opinion_NN ._.
 When_WRB I_PRP met_VBD a_DT which_WDT me_PRP seemed_VBD a_DT little_RB lucid_JJ ,_, I_PRP did_VBD experience_NN on_IN it_PRP of_IN my_PRP$ drawing_NN No_NNP A_NNP that_IN I_PRP always_RB retained_VBD ._.
 I_PRP wanted_VBD know_VB if_IN it_PRP was_VBD really_RB understanding_VBG ._.
-But_CC always_RB it_PRP me_PRP answered_VBD :_: ``_`` It_PRP 's_VBZ a_DT hat_NN ._. ''_''
+But_CC always_RB it_PRP me_PRP answered_VBD :_: ``_`` It_PRP 's_VBZ a_DT hat_NN ._.
 Then_RB I_PRP not_RB him_PRP talking_VBG or_CC of_IN snakes_NNS boas_NNS ,_, or_CC of_IN forests_NNS virgin_JJ or_CC of_IN stars_NNS ._.
 I_PRP me_PRP put_VBD to_TO its_PRP$ reach_NN ._.
 I_PRP him_PRP talking_VBG of_IN bridge_NN of_IN golf_NN ,_, of_IN policy_NN and_CC of_IN ties_NNS ._.
