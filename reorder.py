@@ -2,6 +2,8 @@
 import re
 import pdb
 
+NEGATIVE_WORDS = ['not', 'never', 'nothing']
+
 ## Simple representation of a tagged word
 class Word:
     def __init__(self, w):
@@ -27,6 +29,13 @@ class Word:
     def isVerb(self):
         return re.match("VB", self.tag)
 
+    def isGerund(self):
+        return self.tag == "VBG"
+
+    def startsWithVowel(self):
+        letter = self.word[0].lower()
+        return any([ letter == l for l in ["a","e","i","o","u"]])
+
     def __repr__(self):
         return str(self)
     def __str__(self):
@@ -51,7 +60,7 @@ def AdverbAfterVerb(s):
         if s[i].isAdverb() and s[i+1].isVerb():
             swap(s, i, i+1)
 
-def DOAferVerb(s):
+def DOAfterVerb(s):
     for i in xrange(0, len(s)-2):
         if s[i].isNoun() and s[i+1].isNoun() and s[i+2].isVerb():
             swap(s, i+1, i+2)
@@ -64,17 +73,119 @@ def InfinitiveVerbs(s):
         if s[i].isVerb() and s[i+1].pos("VB"):
             s.insert(i+1, Word("to_TO"))
 
-def SwitchPluralNouns(s):
-    for i in xrange(0, len(s)-1):
-        if s[i].pos("NNS") and s[i+1].pos("NNS"):
-            swap(s, i, i+1)
+def OrOf(s):
+    orofs = []
+    for i in range(0, len(s)-1):
+      Word = s[i]
+      if Word.word.lower() == "or":
+          if s[i+1].word.lower() == "of":
+              orofs.append(i)
+
+    if len(orofs) == 0:
+        return
+
+    firstOrOf = orofs.pop(0)
+    s.pop(firstOrOf) # delete "or"
+
+    numdeleted = 1
+
+    for orof in orofs:
+        s.pop(orof + 1 - numdeleted)
+        numdeleted += 1
+
+# distinguish whether or not there's a verb in front of 'to the'
+def ToThe(s):
+    tothes = []
+
+    for i in range(1, len(s)-1):
+      Word = s[i]
+      if Word.word.lower() == "to":
+          if s[i+1].word.lower() == "the":
+              if not s[i-1].isVerb():
+                  tothes.append(i)
+
+    if len(tothes) == 0:
+        return
+
+    firstToThe = tothes.pop(0)
+    s.pop(firstToThe + 1)
+
+    numdeleted = 1
+
+    for tothe in tothes:
+        ind = tothe+1 - numdeleted
+        s.pop(tothe - numdeleted)
+        s.pop(tothe - numdeleted)
+        numdeleted += 2 
+
+def AAn(s):
+    Ans = []
+    As = []
+
+    for i in range(0, len(s)-1):
+        Word = s[i]
+        word = Word.word
+        if word == "a" and s[i+1].startsWithVowel():
+            Ans.append(i)
+        if word == "an" and not s[i+1].startsWithVowel():
+            As.append(i)
+
+    for A in As:
+        s[A].word = "a"
+
+    for An in Ans:
+        s[An].word = "an"
+
+def OfStrip(s):
+    ofs = []
+
+    for i in range(1, len(s) - 1):
+        if s[i].word != "of":
+            continue
+        if s[i-1].isVerb() and not s[i-1].isGerund() and s[i+1].isNoun():
+            ofs.append(i)
+
+    if len(ofs) == 0:
+        return
+
+    numdeleted = 0
+    for of in ofs:
+        s.pop(of - numdeleted)
+        numdeleted += 1
+
+def NotSwap(s):
+    for i in range(0, len(s)-2):
+        if s[i].word != "not":
+            continue
+        swap(s, i+1, i+2)
+
+def DoubleNeg(s):
+    doublenegs = []
+
+    for i in range(0, len(s)-1):
+        if s[i].word != "not":
+            continue
+        if s[i+1].word in NEGATIVE_WORDS:
+            doublenegs.append(i)
+
+    numdeleted = 0
+    for doubleneg in doublenegs:
+        s.pop(doubleneg - numdeleted)
+        numdeleted += 1
+            
 
 def reorder(s):
+    print " ".join([S.word for S in s])
     AdjectiveBeforeNoun(s)
     AdverbAfterVerb(s)
-    DOAferVerb(s)
+    DOAfterVerb(s)
     InfinitiveVerbs(s)
-    SwitchPluralNouns(s)
+    OrOf(s)
+    ToThe(s)
+    AAn(s)
+    OfStrip(s)
+    NotSwap(s)
+    DoubleNeg(s)
     return s
 
 
@@ -108,10 +219,11 @@ def transformText(txt):
 def main():
     f = open("english-tagged.txt")
     txt = f.read()
+    print txt + "\n"
     transformed = transformText(txt)
     reordered = map(reorder,transformed)
     result = collapse(reordered)
-    print result
+    print ".\n".join(result.split("."))
 
 if __name__ == '__main__':
     main()
