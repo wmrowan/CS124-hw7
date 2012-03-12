@@ -16,6 +16,8 @@ Quand j'en rencontrais une qui me paraissait un peu lucide, je faisais l'expéri
 Our System's Output
 ------------------------
 
+The large people have I advisable to let side the drawings of snakes boas open or closed and of interest me rather to geography, to history, at calculation and grammar. This is so that I abandoned, to age of six years a magnificent career of painter. I discouraged summer by the failure of my drawing number A and of my drawing number 2. The large people include nothing never all only , and this is tiring , for the children , of always their give explanations. I therefore choose due an other job and I learned to pilot aircraft. I stolen a little everywhere in the world. And the geography, this is accurate, me served much. I knew to recognize, of first blow Look, the China of Arizona. This is very useful , if is is lost for the night. I had so, at course of my life, of heap of Contacts with of heap of people seriously. I lived much in the large persons. I the have views of very close. It has not too improved my opinion. When I met a which me seemed a little lucid , I did experience on it of my drawing No A that I retained always. I wanted to know if it was understanding really. But always it answered me : "It 's a hat." Then I not talking him of snakes boas, or virgin forests or stars. I put me to its reach. I talking him of bridge of golf , of policy and of ties. And the great person was well content to know a man also reasonable.
+
 Our Reordering Algorithm
 ------------------------
 
@@ -61,6 +63,19 @@ changes to an 'an'. This is the purpose of the AAn rule which was actually
 quite straightforward to implement as all the necessary information is readily
 available.
 
+We also found a number of important linguistic differences related to negation.
+
+The NotSwap rule simply reverse the two words that follow a 'not'. In French
+the words that follow a 'not' are by rule reversed relative to the proper
+English word ordering. This is a relatively simple rule to implement.
+
+The DoubleNeg rule applies to another interesting quirk of the French treatment
+of negation. That is, French makes heavy use of double negation where English
+would have one negative. In fact, the double reversal that applies in English
+doesn't seem to apply at all in French so two consequtive negatives still has
+the same meaning as a single negation. To fix this we compiled a set of
+negating English words and look for sequences of them, removing any extras.
+
 Many of the translation errors we encountered involved improper translation and
 placement of prepositions. The original French text seems to have many more
 prepositions than the proper English translation. Furthermore, two French
@@ -93,8 +108,70 @@ Error Analysis
 --------------
 
 Our translation is far from perfect. In fact, it doesn't really make any sense
-at all.
+at all. It is so bad, in fact, that several people who we asked who were very
+familiar with the Little Prince were unable to recognize it on the basis of our
+translation.
 
+Why is this? Are we just really bad computer scientists? The process of
+translating the original French document has several parts.
+
+1. Translate each word individually using the most common translation for that
+   word. For this step we asked Google translate to translate each word one at
+   a time. Since it had not the ability to infer the translation from context
+   it in essence was doing a simple dictionary lookup and returning the most
+   likely candidate. This, in the end, produced very bad output, in many cases
+   returning not even a translation of the correct part of speech.
+   
+2. Tag the resulting text with the Stanford POS tagger. This process we also
+   could not control. Especially because it had to work on completely
+   nonsensical input the POS tagging ended up being hopelessly wrong,
+   especially in biasing towards nouns in cases where the word would more
+   correctly be tagged as a verb if only the initial translation had been
+   better and the resulting text obeyed a more correct English word ordering.
+   Of course, this is a chicken and the egg problem, the sentence could not
+   correctly be reordered until the POS information was there but the POS
+   tagger would get confused unless proper English word ordering rules were
+   being applied.
+    
+3. Reorder the sentence given the available information. Only now do we have 
+   any chance to influence the process. The assignment passes of this task as a
+   simple matter of enforcing certain English grammar rules when they differ
+   from the equivalent French yet there is nothing we can do when the raw
+   material we have to work with is so bad. If we're given incorrect
+   translations for the words and those words are given bad POS tags then we
+   can't possibly reorder the bad words based on bad tags to come up with the
+   correct sentence. The best we can do is put lipstick on the pig, with a
+   blindfold on, through a robotic arm that overshoots its instructed movements
+   and provides no tactile feedback.
+
+   A good example has to do with direct objects and indirect objects. In
+   English we often use word order and prepositions to distinguish these. To
+   correctly infer indirect objects from the original French we would ideally
+   have a parse tree and precises preposition information. But since all French
+   prepositions were translated as 'of' and all nouns whether subject or object
+   in the original were simply labeled as 'NN' all the information that would
+   need had already been thrown away in previous steps.
+
+To actually fix the errors in our translation we would need a completely
+different approach that involved access to more powerful tools. To start off
+with we would need a real parser, not just a POS tagger, for the original
+French. This would help us know which translation to select for words that
+could be either a noun or a verb in different contexts. The word 'pilot' is a
+good example from our test document. This also applies to prepositions too.
+Which could have very different translations to English equivalents depending
+on context in the original.
+
+This also assumes that we have a full dictionary that includes translations for
+multiple different senses of the word. We need more freedom to select the
+correct translation of any given word. As it is, we may end up with sentences
+full of nouns and no verbs. There is again nothing that pure reordering can do
+in that case. Once we done intelligent word for word translation we should then
+output this initial translation with the original French POS information
+attached. The French POS information is far more useful than fake English POS
+inferences derived from bad data.
+
+With this more accurate and richer starting point our existing approach to
+sentence reordering would have a much better shot at succeeding.
 
 Google Translate Output
 ------------------------
@@ -113,5 +190,19 @@ Then I would never speak or boa constrictors, or primeval forests, or stars. I w
 Comparative Analysis
 ------------------------
 
+The Google translate output is obviously much better than ours. Still, it made
+some of the same mistakes that we made.
+
+Because the Google approach relies on a statistical analysis though it is prone
+to messing up simple rules that would be better to be hard coded into the
+system in the manner of ours. In the last sentence above, for example, while we
+both correctly drop subsequent 'of's in the given list Google translate makes
+the mistake of dropping the first 'of' and not dropping the first 'or'.
+
+Where Google really shines is its ability to infer from the context surrounding
+a word what the correct choice for a translation of that word should be.
+
 Group Responsibilities
 ------------------------
+
+We all worked together on the translation rules and the writeup.
